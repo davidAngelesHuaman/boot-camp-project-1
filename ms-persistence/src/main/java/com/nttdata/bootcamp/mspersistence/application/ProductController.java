@@ -1,6 +1,6 @@
-package com.nttdata.bootcamp.msproduct.aplication;
+package com.nttdata.bootcamp.mspersistence.application;
 
-import com.nttdata.bootcamp.msproduct.model.Product;
+import com.nttdata.bootcamp.mspersistence.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,8 +15,8 @@ public class ProductController {
 
     @PostMapping("product")
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<Product> createCustomer(@RequestBody Product product){
-        return productService.createProduct(Mono.just(product));
+    public Mono<Product> createCustomer(@RequestBody Mono<Product> product){
+        return productService.createProduct(product);
     }
 
     @GetMapping(value = "getProduct", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
