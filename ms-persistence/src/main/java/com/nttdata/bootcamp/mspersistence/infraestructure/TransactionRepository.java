@@ -1,6 +1,6 @@
-package com.nttdata.bootcamp.mstransaction.infraestructure;
+package com.nttdata.bootcamp.mspersistence.infraestructure;
 
-import com.nttdata.bootcamp.mstransaction.model.Transaction;
+import com.nttdata.bootcamp.mspersistence.model.Transaction;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
 

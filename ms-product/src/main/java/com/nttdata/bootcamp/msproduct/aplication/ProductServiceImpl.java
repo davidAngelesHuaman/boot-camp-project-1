@@ -12,12 +12,12 @@ import java.time.Duration;
 @Service
 public class ProductServiceImpl implements ProductService{
 
-    WebClient client = WebClient.create("http://localhost:8081/");
+    WebClient client = WebClient.create("http://localhost:8081/product/");
 
     @Override
     public Mono<Product> createProduct(Mono<Product> productMono) {
         return client.post()
-                .uri("product")
+                .uri("/")
                 .body(productMono, Product.class)
                 .retrieve()
                 .bodyToMono(Product.class);
@@ -26,7 +26,7 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public Flux<Product> listAll() {
         return client.get()
-                .uri("getProduct")
+                .uri("get")
                 .retrieve()
                 .bodyToFlux(Product.class);
     }
@@ -34,7 +34,7 @@ public class ProductServiceImpl implements ProductService{
     @Override
     public Mono<Product> listProductId(Integer id) {
         return client.get()
-                .uri("getProduct/{id}", id)
+                .uri("get/{id}", id)
                 .retrieve()
                 .bodyToMono(Product.class);
     }

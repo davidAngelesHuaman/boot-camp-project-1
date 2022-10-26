@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@RestController
 public class TransactionController {
+
     @Autowired
     TransactionService transactionService;
 
@@ -23,14 +25,13 @@ public class TransactionController {
         return transactionService.listAll();
     }
 
-    @GetMapping(value = "getTransaction/{id}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(value = "getTransaction/{id}")
     public Mono<Transaction> listProductId(@PathVariable("id") Integer id){
         return transactionService.listTransactionId(id);
     }
 
     @DeleteMapping(value = "delete/{id}")
     public Mono<Void> deleteProduct(@PathVariable("id") Integer id){
-
         return transactionService.deleteTransaction(id);
     }
 }
