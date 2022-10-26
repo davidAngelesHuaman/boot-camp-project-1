@@ -1,13 +1,15 @@
-package com.nttdata.bootcamp.mscustomerProduct.model;
+package com.nttdata.bootcamp.mspersistence.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
-
+@Document
 @Getter
 @Setter
 @AllArgsConstructor
@@ -15,7 +17,7 @@ import java.util.Date;
 
 //se separa el activo del pasivo por la función que cada uno cumple
 public class PasiveCustomerProduct {
-
+    @Id
     private Integer id;
     private String customerId;
     private String productId;

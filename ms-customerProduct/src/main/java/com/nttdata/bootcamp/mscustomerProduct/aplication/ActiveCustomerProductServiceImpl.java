@@ -1,35 +1,44 @@
 package com.nttdata.bootcamp.mscustomerProduct.aplication;
 
-import com.nttdata.bootcamp.mscustomerProduct.infraestructure.ActiveCustomerProductRepository;
 import com.nttdata.bootcamp.mscustomerProduct.model.ActiveCustomerProduct;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.time.Duration;
-
 public class ActiveCustomerProductServiceImpl implements ActiveCustomerProductService{
-    @Autowired
-    ActiveCustomerProductRepository activeCustomerProductRepository;
+
+    WebClient client = WebClient.create("http://localhost:8081/activecustomerproduct/");
+
     @Override
     public Mono<ActiveCustomerProduct> createActiveCustomProd(Mono<ActiveCustomerProduct> activeCustomerProductMono) {
-        return activeCustomerProductMono.flatMap(activeCustomerProductRepository::insert);
+        return client.post()
+                .uri("/")
+                .body(activeCustomerProductMono, ActiveCustomerProduct.class)
+                .retrieve()
+                .bodyToMono(ActiveCustomerProduct.class);
     }
 
     @Override
     public Flux<ActiveCustomerProduct> listActiveCustomProdAll() {
-
-        //return employeeRepository.findAll();
-        return activeCustomerProductRepository.findAll().delayElements(Duration.ofSeconds(1)).log();
+        return client.get()
+                .uri("get")
+                .retrieve()
+                .bodyToFlux(ActiveCustomerProduct.class);
     }
+
     @Override
     public Mono<ActiveCustomerProduct> listActiveCustomProd_Id(Integer id) {
-
-        return activeCustomerProductRepository.findById(id);
+        return client.get()
+                .uri("get/{id}", id)
+                .retrieve()
+                .bodyToMono(ActiveCustomerProduct.class);
     }
 
     @Override
     public Mono<Void> deleteActiveCustomProd(Integer id) {
-        return activeCustomerProductRepository.deleteById(id);
+        return client.delete()
+                .uri("delete/{id}", id)
+                .retrieve()
+                .bodyToMono(Void.class);
     }
 }

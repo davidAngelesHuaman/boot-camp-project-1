@@ -1,6 +1,6 @@
-package com.nttdata.bootcamp.mscustomerProduct.infraestructure;
+package com.nttdata.bootcamp.mspersistence.infraestructure;
 
-import com.nttdata.bootcamp.mscustomerProduct.model.ActiveCustomerProduct;
+import com.nttdata.bootcamp.mspersistence.model.ActiveCustomerProduct;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
 

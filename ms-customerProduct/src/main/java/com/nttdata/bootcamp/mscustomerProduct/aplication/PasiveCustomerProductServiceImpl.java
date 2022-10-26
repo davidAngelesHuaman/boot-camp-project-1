@@ -1,32 +1,44 @@
 package com.nttdata.bootcamp.mscustomerProduct.aplication;
 
-import com.nttdata.bootcamp.mscustomerProduct.infraestructure.PasiveCustomerProductRepository;
 import com.nttdata.bootcamp.mscustomerProduct.model.PasiveCustomerProduct;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.time.Duration;
-
 public class PasiveCustomerProductServiceImpl implements PasiveCustomerProductService{
-    @Autowired
-    PasiveCustomerProductRepository pasiveCustomerProductRepository;
+
+    WebClient client = WebClient.create("http://localhost:8081/pasivecustomerproduct/");
+
     @Override
     public Mono<PasiveCustomerProduct> createPasiveCustomProd(Mono<PasiveCustomerProduct> pasiveCustomerProductMono) {
-        return pasiveCustomerProductMono.flatMap(pasiveCustomerProductRepository::insert);
+        return client.post()
+                .uri("/")
+                .body(pasiveCustomerProductMono, PasiveCustomerProduct.class)
+                .retrieve()
+                .bodyToMono(PasiveCustomerProduct.class);
     }
 
     @Override
     public Flux<PasiveCustomerProduct> listPasiveCustomProdAll() {
-        return pasiveCustomerProductRepository.findAll().delayElements(Duration.ofSeconds(1)).log();
+        return client.get()
+                .uri("get")
+                .retrieve()
+                .bodyToFlux(PasiveCustomerProduct.class);
     }
+
     @Override
     public Mono<PasiveCustomerProduct> listPasiveCustomProd_Id(Integer id) {
-        return pasiveCustomerProductRepository.findById(id);
+        return client.get()
+                .uri("get/{id}", id)
+                .retrieve()
+                .bodyToMono(PasiveCustomerProduct.class);
     }
 
     @Override
     public Mono<Void> deletePasiveCustomProd(Integer id) {
-        return pasiveCustomerProductRepository.deleteById(id);
+        return client.delete()
+                .uri("delete/{id}", id)
+                .retrieve()
+                .bodyToMono(Void.class);
     }
 }

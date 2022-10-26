@@ -1,6 +1,6 @@
-package com.nttdata.bootcamp.mscustomerProduct.aplication;
+package com.nttdata.bootcamp.mspersistence.application;
 
-import com.nttdata.bootcamp.mscustomerProduct.model.ActiveCustomerProduct;
+import com.nttdata.bootcamp.mspersistence.model.ActiveCustomerProduct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -9,14 +9,15 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
+@RequestMapping("activecustomerproduct")
 public class ActiveCustomerProductController {
     @Autowired
     ActiveCustomerProductService activeCustomerProductService;
 
-    @PostMapping("activecustomerproduct")
+    @PostMapping("/")
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<ActiveCustomerProduct> createActiveCustomProd(@RequestBody ActiveCustomerProduct activeCustomerProduct){
-        return activeCustomerProductService.createActiveCustomProd(Mono.just(activeCustomerProduct));
+    public Mono<ActiveCustomerProduct> createActiveCustomProd(@RequestBody Mono<ActiveCustomerProduct> activeCustomerProduct){
+        return activeCustomerProductService.createActiveCustomProd(activeCustomerProduct);
     }
 
     @GetMapping(value = "getActiveCustomerProduct", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
@@ -31,6 +32,7 @@ public class ActiveCustomerProductController {
 
     @DeleteMapping(value = "deleteActiveCustomer/{id}")
     public Mono<Void> deleteActiveCustomProd(@PathVariable("id") Integer id){
+
         return activeCustomerProductService.deleteActiveCustomProd(id);
     }
 }
