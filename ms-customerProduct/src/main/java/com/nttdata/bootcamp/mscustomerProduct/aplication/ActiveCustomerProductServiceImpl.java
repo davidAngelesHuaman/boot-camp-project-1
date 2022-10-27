@@ -1,17 +1,25 @@
 package com.nttdata.bootcamp.mscustomerProduct.aplication;
 
 import com.nttdata.bootcamp.mscustomerProduct.model.ActiveCustomerProduct;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Service
 public class ActiveCustomerProductServiceImpl implements ActiveCustomerProductService{
 
-    WebClient client = WebClient.create("http://localhost:8081/activecustomerproduct/");
+    WebClient clientPersistence;
+
+    @Autowired
+    public ActiveCustomerProductServiceImpl(WebClient.Builder builder) {
+        this.clientPersistence = builder.baseUrl("http://ms-persistence/activecustomerproduct/").build();
+    }
 
     @Override
     public Mono<ActiveCustomerProduct> createActiveCustomProd(Mono<ActiveCustomerProduct> activeCustomerProductMono) {
-        return client.post()
+        return clientPersistence.post()
                 .uri("/")
                 .body(activeCustomerProductMono, ActiveCustomerProduct.class)
                 .retrieve()
@@ -20,7 +28,7 @@ public class ActiveCustomerProductServiceImpl implements ActiveCustomerProductSe
 
     @Override
     public Flux<ActiveCustomerProduct> listActiveCustomProdAll() {
-        return client.get()
+        return clientPersistence.get()
                 .uri("get")
                 .retrieve()
                 .bodyToFlux(ActiveCustomerProduct.class);
@@ -28,7 +36,7 @@ public class ActiveCustomerProductServiceImpl implements ActiveCustomerProductSe
 
     @Override
     public Mono<ActiveCustomerProduct> listActiveCustomProd_Id(Integer id) {
-        return client.get()
+        return clientPersistence.get()
                 .uri("get/{id}", id)
                 .retrieve()
                 .bodyToMono(ActiveCustomerProduct.class);
@@ -36,9 +44,10 @@ public class ActiveCustomerProductServiceImpl implements ActiveCustomerProductSe
 
     @Override
     public Mono<Void> deleteActiveCustomProd(Integer id) {
-        return client.delete()
+        return clientPersistence.delete()
                 .uri("delete/{id}", id)
                 .retrieve()
                 .bodyToMono(Void.class);
     }
+
 }

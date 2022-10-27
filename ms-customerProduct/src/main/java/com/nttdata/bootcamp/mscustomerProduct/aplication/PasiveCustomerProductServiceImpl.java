@@ -1,17 +1,25 @@
 package com.nttdata.bootcamp.mscustomerProduct.aplication;
 
 import com.nttdata.bootcamp.mscustomerProduct.model.PasiveCustomerProduct;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+@Service
 public class PasiveCustomerProductServiceImpl implements PasiveCustomerProductService{
 
-    WebClient client = WebClient.create("http://localhost:8081/pasivecustomerproduct/");
+    WebClient clientPersistence;
+
+    @Autowired
+    public PasiveCustomerProductServiceImpl(WebClient.Builder builder) {
+        this.clientPersistence = builder.baseUrl("http://ms-persistence/pasivecustomerproduct/").build();
+    }
 
     @Override
     public Mono<PasiveCustomerProduct> createPasiveCustomProd(Mono<PasiveCustomerProduct> pasiveCustomerProductMono) {
-        return client.post()
+        return clientPersistence.post()
                 .uri("/")
                 .body(pasiveCustomerProductMono, PasiveCustomerProduct.class)
                 .retrieve()
@@ -20,7 +28,7 @@ public class PasiveCustomerProductServiceImpl implements PasiveCustomerProductSe
 
     @Override
     public Flux<PasiveCustomerProduct> listPasiveCustomProdAll() {
-        return client.get()
+        return clientPersistence.get()
                 .uri("get")
                 .retrieve()
                 .bodyToFlux(PasiveCustomerProduct.class);
@@ -28,7 +36,7 @@ public class PasiveCustomerProductServiceImpl implements PasiveCustomerProductSe
 
     @Override
     public Mono<PasiveCustomerProduct> listPasiveCustomProd_Id(Integer id) {
-        return client.get()
+        return clientPersistence.get()
                 .uri("get/{id}", id)
                 .retrieve()
                 .bodyToMono(PasiveCustomerProduct.class);
@@ -36,7 +44,7 @@ public class PasiveCustomerProductServiceImpl implements PasiveCustomerProductSe
 
     @Override
     public Mono<Void> deletePasiveCustomProd(Integer id) {
-        return client.delete()
+        return clientPersistence.delete()
                 .uri("delete/{id}", id)
                 .retrieve()
                 .bodyToMono(Void.class);

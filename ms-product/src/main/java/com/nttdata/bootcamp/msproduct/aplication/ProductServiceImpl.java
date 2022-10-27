@@ -7,17 +7,20 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.time.Duration;
-
 @Service
 public class ProductServiceImpl implements ProductService{
 
-    WebClient client = WebClient.create("http://localhost:8081/product/");
+    WebClient clientPersistence;
+
+    @Autowired
+    public ProductServiceImpl(WebClient.Builder builder) {
+        this.clientPersistence = builder.baseUrl("http://ms-persistence/").build();
+    }
 
     @Override
     public Mono<Product> createProduct(Mono<Product> productMono) {
-        return client.post()
-                .uri("/")
+        return clientPersistence.post()
+                .uri("product/")
                 .body(productMono, Product.class)
                 .retrieve()
                 .bodyToMono(Product.class);
@@ -25,25 +28,26 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public Flux<Product> listAll() {
-        return client.get()
-                .uri("get")
+        return clientPersistence.get()
+                .uri("product/get")
                 .retrieve()
                 .bodyToFlux(Product.class);
     }
 
     @Override
     public Mono<Product> listProductId(Integer id) {
-        return client.get()
-                .uri("get/{id}", id)
+        return clientPersistence.get()
+                .uri("product/get/{id}", id)
                 .retrieve()
                 .bodyToMono(Product.class);
     }
 
     @Override
     public Mono<Void> deleteProduct(Integer id) {
-       return client.delete()
-                .uri("delete/{id}", id)
+       return clientPersistence.delete()
+                .uri("product/delete/{id}", id)
                .retrieve()
                .bodyToMono(Void.class);
     }
+
 }
