@@ -1,0 +1,38 @@
+server:
+  port: 8099
+spring:
+  cloud:
+    gateway:
+      default-filters:
+        - name: GlobalFilter
+      routes:
+        - id: ms-product
+          uri: http://localhost:8082/
+          predicates:
+            - Path=/ms-product/**
+          filters:
+            - PreFilter
+            - PostFilter
+        - id: ms-customerProduct
+          uri: http://localhost:8083/
+          predicates:
+            - Path=/ms-customerProduct/**
+          filters:
+            - PreFilter
+            - PostFilter
+        - id: ms-transaction
+          uri: http://localhost:8084/
+          predicates:
+            - Path=/ms-transaction/**
+          filters:
+            - PreFilter
+            - PostFilter
+        - id: ms-customer
+          uri: http://localhost:8085/
+          predicates:
+            - Path=/ms-customer/**
+          filters:
+            - PreFilter
+            - PostFilter
+  application:
+    name: ms-apigateway
