@@ -6,31 +6,38 @@ spring:
       default-filters:
         - name: GlobalFilter
       routes:
-        - id: ms-product
-          uri: http://localhost:8082/
+        - id: ms-customer
+          uri: http://localhost:8081
           predicates:
-            - Path=/ms-product/**
+            - Path=/customer/**
           filters:
             - PreFilter
             - PostFilter
-        - id: ms-customerProduct
-          uri: http://localhost:8083/
+        - id: ms-product
+          uri: http://localhost:8081
           predicates:
-            - Path=/ms-customerProduct/**
+            - Path=/product/**
+          filters:
+            - PreFilter
+            - PostFilter
+        - id: ms-activecustomerProduct
+          uri: http://localhost:8081
+          predicates:
+            - Path=/activecustomerproduct/**
+          filters:
+            - PreFilter
+            - PostFilter
+        - id: ms-pasivecustomerProduct
+          uri: http://localhost:8081
+          predicates:
+            - Path=/pasivecustomerproduct/**
           filters:
             - PreFilter
             - PostFilter
         - id: ms-transaction
-          uri: http://localhost:8084/
+          uri: http://localhost:8081
           predicates:
-            - Path=/ms-transaction/**
-          filters:
-            - PreFilter
-            - PostFilter
-        - id: ms-customer
-          uri: http://localhost:8085/
-          predicates:
-            - Path=/ms-customer/**
+            - Path=/transaction/**
           filters:
             - PreFilter
             - PostFilter
