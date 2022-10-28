@@ -1,0 +1,26 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: ms-product
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config-server
+      failFast: true
+      name: config-product
+      profile: development
+      username: admin
+      password: admin
+      retry:
+        max-attempts: 1
+        max-interval: 1000
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: ALWAYS
