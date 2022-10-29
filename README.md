@@ -8,6 +8,6 @@ Proyecto multi module implementado para el boot camp MS
 - **ms-persistence** - Componente que mantiene la capa persistente a la base de datos MongoDB
 - **ms-customer** 
 - **ms-product**
-- **ms-customerProduct**
+- **ms-customer-product**
 - **ms-transaction**
 

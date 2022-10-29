@@ -14,7 +14,7 @@
         <module>ms-persistence</module>
         <module>ms-customer</module>
         <module>ms-product</module>
-        <module>ms-customerProduct</module>
+        <module>ms-customer-product</module>
         <module>ms-transaction</module>
         <module>ms-apigateway</module>
     </modules>
