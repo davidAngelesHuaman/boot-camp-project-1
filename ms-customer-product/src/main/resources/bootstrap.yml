@@ -2,14 +2,14 @@ server:
   port: 8083
 spring:
   application:
-    name: ms-customerProduct
+    name: ms-customer-product
   cloud:
     config:
       discovery:
         enabled: true
         service-id: config-server
       failFast: true
-      name: config-customerProduct
+      name: config-customer-product
       profile: development
       username: admin
       password: admin

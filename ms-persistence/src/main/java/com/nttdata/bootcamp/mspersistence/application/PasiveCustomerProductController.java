@@ -20,12 +20,12 @@ public class PasiveCustomerProductController {
         return pasiveCustomerProductService.createPasiveCustomProd(pasiveCustomerProduct);
     }
 
-    @GetMapping(value = "getPasiveCustomerProduct", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(value = "get", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<PasiveCustomerProduct> listAll(){
         return pasiveCustomerProductService.listPasiveCustomProdAll();
     }
 
-    @GetMapping(value = "getPasiveCustomerProduct/{id}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(value = "get/{id}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Mono<PasiveCustomerProduct> listPasiveCustomProd_Id(@PathVariable("id") Integer id){
         return pasiveCustomerProductService.listPasiveCustomProd_Id(id);
     }

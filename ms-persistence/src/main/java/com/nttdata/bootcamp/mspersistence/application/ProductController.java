@@ -20,12 +20,12 @@ public class ProductController {
         return productService.createProduct(product);
     }
 
-    @GetMapping(value = "getProduct", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(value = "get", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<Product> listAll(){
         return productService.listAll();
     }
 
-    @GetMapping(value = "getProduct/{id}")
+    @GetMapping(value = "get/{id}")
     public Mono<Product> listProductId(@PathVariable("id") Integer id){
         return productService.listProductId(id);
     }

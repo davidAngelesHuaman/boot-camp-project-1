@@ -9,6 +9,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
+@RequestMapping("api-customer")
 public class CustomerController {
     @Autowired
     CustomerService customerService;

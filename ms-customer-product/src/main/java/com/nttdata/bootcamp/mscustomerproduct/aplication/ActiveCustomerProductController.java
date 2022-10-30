@@ -9,6 +9,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
+@RequestMapping("api-activecustomerproduct")
 public class ActiveCustomerProductController {
 
     @Autowired
@@ -20,17 +21,17 @@ public class ActiveCustomerProductController {
         return activeCustomerProductService.createActiveCustomProd(Mono.just(activeCustomerProduct));
     }
 
-    @GetMapping(value = "getActiveCustomerProduct", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(value = "get", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<ActiveCustomerProduct> listActiveCustomProdAll(){
         return activeCustomerProductService.listActiveCustomProdAll();
     }
 
-    @GetMapping(value = "getActiveCustomerProduct/{id}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(value = "get/{id}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Mono<ActiveCustomerProduct> listActiveCustomProd_Id(@PathVariable("id") Integer id){
         return activeCustomerProductService.listActiveCustomProd_Id(id);
     }
 
-    @DeleteMapping(value = "deleteActiveCustomer/{id}")
+    @DeleteMapping(value = "delete/{id}")
     public Mono<Void> deleteActiveCustomProd(@PathVariable("id") Integer id){
         return activeCustomerProductService.deleteActiveCustomProd(id);
     }
