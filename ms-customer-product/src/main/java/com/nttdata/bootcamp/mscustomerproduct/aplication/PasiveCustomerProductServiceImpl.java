@@ -10,6 +10,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class PasiveCustomerProductServiceImpl implements PasiveCustomerProductService{
+    @Autowired
     ReactiveCircuitBreakerFactory reactiveCircuitBreakerFactory;
     WebClient clientPersistence;
 

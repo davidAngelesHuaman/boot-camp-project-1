@@ -11,6 +11,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class ActiveCustomerProductServiceImpl implements ActiveCustomerProductService{
+    @Autowired
     ReactiveCircuitBreakerFactory reactiveCircuitBreakerFactory;
     WebClient clientPersistence;
 

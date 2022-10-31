@@ -10,6 +10,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
+    @Autowired
     ReactiveCircuitBreakerFactory reactiveCircuitBreakerFactory;
     WebClient clientPersistence;
 

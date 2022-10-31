@@ -12,6 +12,7 @@ import java.time.Duration;
 
 @Service
 public class CustomerServiceImpl implements CustomerService{
+    @Autowired
     ReactiveCircuitBreakerFactory reactiveCircuitBreakerFactory;
     WebClient clientPersistence;
 
