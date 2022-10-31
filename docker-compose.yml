@@ -1,0 +1,75 @@
+version: "3.7"
+services:
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+
+  config-server:
+    image: davidangeles/bc-config-server
+    ports:
+      - 8080:8080
+
+  eureka-server:
+    image: davidangeles/bc-eureka-server
+    healthcheck:
+      start_period: 60s
+    ports:
+      - 8761:8761
+
+  ms-persistence:
+    image: davidangeles/bc-ms-persistence
+    depends_on:
+      - mongo
+      - eureka-server
+    environment:
+      - SPRING_PROFILES_ACTIVE=qa
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://host.docker.internal:8080
+    restart: on-failure
+    ports:
+      - 8081:8081
+
+  ms-product:
+    image: davidangeles/bc-ms-product
+    depends_on:
+      - ms-persistence
+    environment:
+      - SPRING_PROFILES_ACTIVE=qa
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://host.docker.internal:8080
+    restart: on-failure
+    ports:
+      - 8082:8082
+
+  ms-customer:
+    image: davidangeles/bc-ms-customer
+    depends_on:
+      - ms-persistence
+    environment:
+      - SPRING_PROFILES_ACTIVE=qa
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://host.docker.internal:8080
+    restart: on-failure
+    ports:
+      - 8085:8085
+
+
+  ms-customer-product:
+    image: davidangeles/bc-ms-customer-product
+    depends_on:
+      - ms-persistence
+    environment:
+      - SPRING_PROFILES_ACTIVE=qa
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://host.docker.internal:8080
+    restart: on-failure
+    ports:
+      - 8083:8083
+
+  ms-transaction:
+    image: davidangeles/bc-ms-transaction
+    depends_on:
+      - ms-persistence
+    environment:
+      - SPRING_PROFILES_ACTIVE=qa
+      - SPRING_CONFIG_IMPORT=optional:configserver:http://host.docker.internal:8080
+    restart: on-failure
+    ports:
+      - 8084:8084
