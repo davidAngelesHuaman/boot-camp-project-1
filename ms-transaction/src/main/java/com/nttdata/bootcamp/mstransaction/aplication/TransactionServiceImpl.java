@@ -2,6 +2,7 @@ package com.nttdata.bootcamp.mstransaction.aplication;
 
 import com.nttdata.bootcamp.mstransaction.model.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreakerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -9,7 +10,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class TransactionServiceImpl implements TransactionService {
-
+    ReactiveCircuitBreakerFactory reactiveCircuitBreakerFactory;
     WebClient clientPersistence;
 
     @Autowired
@@ -20,10 +21,11 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public Mono<Transaction> createTransaction(Mono<Transaction> transactionMono) {
         return clientPersistence.post()
-                .uri("transaction//")
+                .uri("transaction/")
                 .body(transactionMono, Transaction.class)
                 .retrieve()
-                .bodyToMono(Transaction.class);
+                .bodyToMono(Transaction.class)
+                .transform(it -> reactiveCircuitBreakerFactory.create("transaction-service").run(it, throwable -> Mono.just(new Transaction())));
     }
 
     @Override
@@ -31,7 +33,8 @@ public class TransactionServiceImpl implements TransactionService {
         return clientPersistence.get()
                 .uri("transaction/get")
                 .retrieve()
-                .bodyToFlux(Transaction.class);
+                .bodyToFlux(Transaction.class)
+                .transform(it -> reactiveCircuitBreakerFactory.create("transaction-service").run(it, throwable -> Flux.just(new Transaction())));
     }
 
     @Override
@@ -39,7 +42,8 @@ public class TransactionServiceImpl implements TransactionService {
         return clientPersistence.get()
                 .uri("transaction/get/{id}", id)
                 .retrieve()
-                .bodyToMono(Transaction.class);
+                .bodyToMono(Transaction.class)
+                .transform(it -> reactiveCircuitBreakerFactory.create("transaction-service").run(it, throwable -> Mono.just(new Transaction())));
     }
 
     @Override
@@ -47,6 +51,7 @@ public class TransactionServiceImpl implements TransactionService {
         return clientPersistence.delete()
                 .uri("transaction/delete/{id}", id)
                 .retrieve()
-                .bodyToMono(Void.class);
+                .bodyToMono(Void.class)
+                .transform(it -> reactiveCircuitBreakerFactory.create("transaction-service").run(it, throwable -> Mono.empty()));
     }
 }

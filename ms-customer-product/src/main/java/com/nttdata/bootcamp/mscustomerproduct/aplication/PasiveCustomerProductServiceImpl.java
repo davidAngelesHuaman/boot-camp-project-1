@@ -2,6 +2,7 @@ package com.nttdata.bootcamp.mscustomerproduct.aplication;
 
 import com.nttdata.bootcamp.mscustomerproduct.model.PasiveCustomerProduct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreakerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -9,7 +10,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class PasiveCustomerProductServiceImpl implements PasiveCustomerProductService{
-
+    ReactiveCircuitBreakerFactory reactiveCircuitBreakerFactory;
     WebClient clientPersistence;
 
     @Autowired
@@ -23,7 +24,8 @@ public class PasiveCustomerProductServiceImpl implements PasiveCustomerProductSe
                 .uri("/")
                 .body(pasiveCustomerProductMono, PasiveCustomerProduct.class)
                 .retrieve()
-                .bodyToMono(PasiveCustomerProduct.class);
+                .bodyToMono(PasiveCustomerProduct.class)
+                .transform(it -> reactiveCircuitBreakerFactory.create("pasive-service").run(it, throwable -> Mono.just(new PasiveCustomerProduct())));
     }
 
     @Override
@@ -31,7 +33,8 @@ public class PasiveCustomerProductServiceImpl implements PasiveCustomerProductSe
         return clientPersistence.get()
                 .uri("get")
                 .retrieve()
-                .bodyToFlux(PasiveCustomerProduct.class);
+                .bodyToFlux(PasiveCustomerProduct.class)
+                .transform(it -> reactiveCircuitBreakerFactory.create("pasive-service").run(it, throwable -> Flux.just(new PasiveCustomerProduct())));
     }
 
     @Override
@@ -39,7 +42,8 @@ public class PasiveCustomerProductServiceImpl implements PasiveCustomerProductSe
         return clientPersistence.get()
                 .uri("get/{id}", id)
                 .retrieve()
-                .bodyToMono(PasiveCustomerProduct.class);
+                .bodyToMono(PasiveCustomerProduct.class)
+                .transform(it -> reactiveCircuitBreakerFactory.create("pasive-service").run(it, throwable -> Mono.just(new PasiveCustomerProduct())));
     }
 
     @Override
@@ -47,6 +51,7 @@ public class PasiveCustomerProductServiceImpl implements PasiveCustomerProductSe
         return clientPersistence.delete()
                 .uri("delete/{id}", id)
                 .retrieve()
-                .bodyToMono(Void.class);
+                .bodyToMono(Void.class)
+                .transform(it -> reactiveCircuitBreakerFactory.create("pasive-service").run(it, throwable -> Mono.empty()));
     }
 }

@@ -2,6 +2,7 @@ package com.nttdata.bootcamp.msproduct.aplication;
 
 import com.nttdata.bootcamp.msproduct.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreakerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
@@ -10,6 +11,7 @@ import reactor.core.publisher.Mono;
 @Service
 public class ProductServiceImpl implements ProductService{
 
+    ReactiveCircuitBreakerFactory reactiveCircuitBreakerFactory;
     WebClient clientPersistence;
 
     @Autowired
@@ -23,7 +25,8 @@ public class ProductServiceImpl implements ProductService{
                 .uri("product/")
                 .body(productMono, Product.class)
                 .retrieve()
-                .bodyToMono(Product.class);
+                .bodyToMono(Product.class)
+                .transform(it -> reactiveCircuitBreakerFactory.create("product-service").run(it, throwable -> Mono.just(new Product())));
     }
 
     @Override
@@ -31,7 +34,8 @@ public class ProductServiceImpl implements ProductService{
         return clientPersistence.get()
                 .uri("product/get")
                 .retrieve()
-                .bodyToFlux(Product.class);
+                .bodyToFlux(Product.class)
+                .transform(it -> reactiveCircuitBreakerFactory.create("product-service").run(it, throwable -> Flux.just(new Product())));
     }
 
     @Override
@@ -39,7 +43,8 @@ public class ProductServiceImpl implements ProductService{
         return clientPersistence.get()
                 .uri("product/get/{id}", id)
                 .retrieve()
-                .bodyToMono(Product.class);
+                .bodyToMono(Product.class)
+                .transform(it -> reactiveCircuitBreakerFactory.create("product-service").run(it, throwable -> Mono.just(new Product())));
     }
 
     @Override
@@ -47,7 +52,8 @@ public class ProductServiceImpl implements ProductService{
        return clientPersistence.delete()
                 .uri("product/delete/{id}", id)
                .retrieve()
-               .bodyToMono(Void.class);
+               .bodyToMono(Void.class)
+               .transform(it -> reactiveCircuitBreakerFactory.create("product-service").run(it, throwable -> Mono.empty()));
     }
 
 }
