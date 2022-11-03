@@ -18,7 +18,7 @@ public class TransactionController {
     @PostMapping("transaction")
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<Transaction> createTransaction(@RequestBody Transaction transaction){
-        return transactionService.createTransaction(Mono.just(transaction));
+        return transactionService.createTransaction(transaction);
     }
 
     @GetMapping(value = "getTransaction", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
