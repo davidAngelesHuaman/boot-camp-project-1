@@ -13,6 +13,6 @@ public class Product {
 
     private Integer id;
     private String nameProduct;
-    private String typeProduct;
+    private String typeProduct; //activo o pasivo con filtro "ProductType"
     private String statusProduct;
 }
