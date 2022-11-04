@@ -17,6 +17,7 @@
         <module>ms-customer-product</module>
         <module>ms-transaction</module>
         <module>ms-apigateway</module>
+        <module>ms-catalog-product</module>
     </modules>
 
     <properties>
