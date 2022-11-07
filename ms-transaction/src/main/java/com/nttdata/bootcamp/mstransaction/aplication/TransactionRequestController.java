@@ -1,6 +1,7 @@
 package com.nttdata.bootcamp.mstransaction.aplication;
 
 import com.nttdata.bootcamp.mstransaction.model.ActiveCustomerProduct;
+import com.nttdata.bootcamp.mstransaction.model.Transaction;
 import com.nttdata.bootcamp.mstransaction.model.TransactionRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,12 +20,17 @@ public class TransactionRequestController {
     @PostMapping("request")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public Mono<String> createTransactionRequest(@RequestBody TransactionRequest request) {
-        return transactionRequestService.createTransaction(request);
+        return transactionRequestService.sendTransaction(request);
     }
 
     @GetMapping(value = "get", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<TransactionRequest> listAll() {
         return transactionRequestService.listAll();
+    }
+
+    @GetMapping(value = "get/{id}")
+    public Mono<TransactionRequest> listProductId(@PathVariable("id") String id){
+        return transactionRequestService.listId(id);
     }
 
 

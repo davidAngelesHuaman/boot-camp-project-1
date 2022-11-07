@@ -22,4 +22,6 @@ public class TransactionRequest {
     private String originCustomer;
     private String destinationCustomer;
 
+    private String message;
+
 }
