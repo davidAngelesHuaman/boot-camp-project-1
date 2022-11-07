@@ -40,7 +40,7 @@ public class ActiveCustomerProductServiceImpl implements ActiveCustomerProductSe
     }
 
     @Override
-    public Mono<ActiveCustomerProduct> listActiveCustomProd_Id(Integer id) {
+    public Mono<ActiveCustomerProduct> listActiveCustomProd_Id(String id) {
         return clientPersistence.get()
                 .uri("get/{id}", id)
                 .retrieve()
@@ -49,7 +49,7 @@ public class ActiveCustomerProductServiceImpl implements ActiveCustomerProductSe
     }
 
     @Override
-    public Mono<Void> deleteActiveCustomProd(Integer id) {
+    public Mono<Void> deleteActiveCustomProd(String id) {
         return clientPersistence.delete()
                 .uri("delete/{id}", id)
                 .retrieve()

@@ -24,12 +24,12 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public Mono<Customer> listCustomerId(Integer id) {
+    public Mono<Customer> listCustomerId(String id) {
         return customerRepository.findById(id);
     }
 
     @Override
-    public Mono<Void> deleteCustomer(Integer id) {
+    public Mono<Void> deleteCustomer(String id) {
         return customerRepository.deleteById(id);
     }
 

@@ -7,12 +7,10 @@ import lombok.Setter;
 
 import java.util.Date;
 
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-
 //se separa el activo del pasivo por la función que cada uno cumple
 public class PasiveCustomerProduct {
 
@@ -23,4 +21,5 @@ public class PasiveCustomerProduct {
     private Double amountMaintenance; //monto mantenimiento
     private Integer amountOperation; //cantidad de operaciones
     private Date dateOperation; //fecha permitida para la operacion
+
 }
