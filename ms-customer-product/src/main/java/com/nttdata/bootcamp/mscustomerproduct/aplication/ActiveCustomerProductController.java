@@ -27,12 +27,12 @@ public class ActiveCustomerProductController {
     }
 
     @GetMapping(value = "get/{id}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Mono<ActiveCustomerProduct> listActiveCustomProd_Id(@PathVariable("id") Integer id){
+    public Mono<ActiveCustomerProduct> listActiveCustomProd_Id(@PathVariable("id") String id){
         return activeCustomerProductService.listActiveCustomProd_Id(id);
     }
 
     @DeleteMapping(value = "delete/{id}")
-    public Mono<Void> deleteActiveCustomProd(@PathVariable("id") Integer id){
+    public Mono<Void> deleteActiveCustomProd(@PathVariable("id") String id){
         return activeCustomerProductService.deleteActiveCustomProd(id);
     }
 }

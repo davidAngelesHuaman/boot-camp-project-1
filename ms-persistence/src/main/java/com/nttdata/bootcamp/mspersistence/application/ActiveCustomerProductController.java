@@ -11,6 +11,7 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping("activecustomerproduct")
 public class ActiveCustomerProductController {
+
     @Autowired
     ActiveCustomerProductService activeCustomerProductService;
 
@@ -25,13 +26,13 @@ public class ActiveCustomerProductController {
         return activeCustomerProductService.listActiveCustomProdAll();
     }
 
-    @GetMapping(value = "get/{id}", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Mono<ActiveCustomerProduct> listActiveCustomProd_Id(@PathVariable("id") Integer id){
+    @GetMapping(value = "get/{id}")
+    public Mono<ActiveCustomerProduct> listActiveCustomProd_Id(@PathVariable("id") String id){
         return activeCustomerProductService.listActiveCustomProd_Id(id);
     }
 
     @DeleteMapping(value = "delete/{id}")
-    public Mono<Void> deleteActiveCustomProd(@PathVariable("id") Integer id){
+    public Mono<Void> deleteActiveCustomProd(@PathVariable("id") String id){
 
         return activeCustomerProductService.deleteActiveCustomProd(id);
     }

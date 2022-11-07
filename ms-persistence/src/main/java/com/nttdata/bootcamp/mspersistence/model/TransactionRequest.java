@@ -7,23 +7,25 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.math.BigDecimal;
+
 @Document
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Customer {
+public class TransactionRequest {
 
     @Id
     private String id;
-    private String docType;
-    private String docNumber;
-    private String fullName;
-    private String telephone;
-    private String address;
-    private String statusCustomer;
+    private BigDecimal amountTransaction;
+    private String payType;
+    private String description;
+    private Integer status;
 
-    private String email;
-    private String password;
+    private String originCustomer;
+    private String destinationCustomer;
+
+    private String message;
 
 }

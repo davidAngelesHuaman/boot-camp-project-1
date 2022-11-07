@@ -1,6 +1,7 @@
 package com.nttdata.bootcamp.mscustomer.aplication;
 
 import com.nttdata.bootcamp.mscustomer.model.Customer;
+import com.nttdata.bootcamp.mscustomer.model.CustomerBootCoin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreakerFactory;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,17 @@ public class CustomerServiceImpl implements CustomerService{
                 .bodyToMono(Customer.class)
                 .transform(it -> reactiveCircuitBreakerFactory.create("customer-service").run(it, throwable -> Mono.just(new Customer())));
     }
+
+    @Override
+    public Mono<CustomerBootCoin> createCustomerBoot(Mono<CustomerBootCoin> customerMono) {
+        return clientPersistence.post()
+                .uri("customer/")
+                .body(customerMono, CustomerBootCoin.class)
+                .retrieve()
+                .bodyToMono(CustomerBootCoin.class)
+                .transform(it -> reactiveCircuitBreakerFactory.create("customer-service").run(it, throwable -> Mono.just(new CustomerBootCoin())));
+    }
+
     @Override
     public Flux<Customer> listAll() {
         return clientPersistence.get()

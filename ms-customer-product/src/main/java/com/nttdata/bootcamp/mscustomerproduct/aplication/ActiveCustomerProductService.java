@@ -6,7 +6,7 @@ import reactor.core.publisher.Mono;
 
 public interface ActiveCustomerProductService {
     Mono<ActiveCustomerProduct> createActiveCustomProd(Mono<ActiveCustomerProduct> product);
-    Mono<Void> deleteActiveCustomProd(Integer id);
+    Mono<Void> deleteActiveCustomProd(String id);
     Flux<ActiveCustomerProduct> listActiveCustomProdAll();
-    Mono<ActiveCustomerProduct> listActiveCustomProd_Id(Integer id);
+    Mono<ActiveCustomerProduct> listActiveCustomProd_Id(String id);
 }
