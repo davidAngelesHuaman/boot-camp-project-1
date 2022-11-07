@@ -11,7 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Customer {
 
-    private Integer id;
+    private String id;
     private String docType;
     private String docNumber;
     private String fullName;

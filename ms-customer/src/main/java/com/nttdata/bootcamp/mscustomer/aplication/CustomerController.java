@@ -1,6 +1,7 @@
 package com.nttdata.bootcamp.mscustomer.aplication;
 
 import com.nttdata.bootcamp.mscustomer.model.Customer;
+import com.nttdata.bootcamp.mscustomer.model.CustomerBootCoin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,6 +19,12 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.CREATED)
     public Mono<Customer> createCustomer(@RequestBody Customer customer){
         return customerService.createCustomer(Mono.just(customer));
+    }
+
+    @PostMapping("customerBootCoin")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Mono<CustomerBootCoin> createCustomerBootCoin(@RequestBody CustomerBootCoin customer){
+        return customerService.createCustomerBoot(Mono.just(customer));
     }
 
     @GetMapping(value = "getCustomer", produces = MediaType.TEXT_EVENT_STREAM_VALUE)

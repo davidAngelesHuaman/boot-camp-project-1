@@ -11,6 +11,7 @@ import reactor.core.publisher.Mono;
 @RestController
 @RequestMapping("customer")
 public class CustomerController {
+
     @Autowired
     CustomerService customerService;
 
@@ -26,12 +27,12 @@ public class CustomerController {
     }
 
     @GetMapping(value = "get/{id}")
-    public Mono<Customer> listCustomerId(@PathVariable("id") Integer id){
+    public Mono<Customer> listCustomerId(@PathVariable("id") String id) {
         return customerService.listCustomerId(id);
     }
 
     @DeleteMapping(value = "delete/{id}")
-    public Mono<Void> deleteCustomer(@PathVariable("id") Integer id){
+    public Mono<Void> deleteCustomer(@PathVariable("id") String id) {
         return customerService.deleteCustomer(id);
     }
 }

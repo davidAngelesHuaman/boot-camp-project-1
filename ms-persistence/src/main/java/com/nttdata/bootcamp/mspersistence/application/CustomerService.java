@@ -7,7 +7,7 @@ import reactor.core.publisher.Mono;
 public interface CustomerService {
 
     Mono<Customer> createCustomer(Mono<Customer> product);
-    Mono<Void> deleteCustomer(Integer id);
+    Mono<Void> deleteCustomer(String id);
     Flux<Customer> listAll();
-    Mono<Customer> listCustomerId(Integer id);
+    Mono<Customer> listCustomerId(String id);
 }
